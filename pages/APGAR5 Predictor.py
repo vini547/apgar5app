@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
+import plotly as plt
 
 st.title("Previsão de APGAR5")
 
