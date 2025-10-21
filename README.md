@@ -24,3 +24,25 @@ Este app permite:
 ---
 
 ## 📁 Estrutura do Projeto
+sinasc_apgar_app/
+│
+├── app.py # Página inicial / Home
+├── pages/ # Páginas adicionais
+│ ├── 01_UMAP_Visualizer.py # UMAP 2D interativo
+│ └── 02_APGAR5_Calculator.py # Calculadora preditiva de APGAR 5
+├── utils/ # Funções auxiliares
+│ ├── init.py
+│ ├── load_sinasc.py
+│ ├── preprocess.py
+│ └── sinasc_sampler.py
+├── models/ # Modelos treinados
+│ └── lgb_apgar5_model.pkl
+├── data/ # Base SINASC
+│ └── sinasc_2015_2025.csv
+├── assets/ # Imagens, ícones, CSS
+│ └── logo.png
+├── outputs/ # Resultados e gráficos exportados
+├── .streamlit/ # Configurações do Streamlit
+│ ├── config.toml
+│ └── secrets.toml
+└── requirements.txt # Dependências Python
