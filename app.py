@@ -2,14 +2,15 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import os
 
 st.title("Previsão de APGAR5")
 
 # -----------------
 # Carregar modelo treinado
 # -----------------
-model = joblib.load('lgbm_apgar5_model_001.pkl')  # modelo salvo no notebook
-
+model_path = os.path.join("models", "lgbm_apgar5_model_001.pkl")
+model = joblib.load(model_path)
 # -----------------
 # Inputs do usuário
 # -----------------
