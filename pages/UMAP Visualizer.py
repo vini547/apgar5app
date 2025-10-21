@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 
+# -----------------------------
+# Streamlit page config
+# -----------------------------
 st.set_page_config(
     page_title="UMAP SINASC Explorer",
     page_icon="🧬",
@@ -15,25 +18,28 @@ st.markdown("Visualizing high-dimensional SINASC data in 2D space using UMAP")
 # -----------------------------
 # Load precomputed embedding
 # -----------------------------
-# Make sure to have saved df_umap as CSV or Pickle in the project folder
 @st.cache_data
-def load_embedding(path="umap_embedding.csv"):
-    df = pd.read_csv(path)
+def load_embedding(path="models/umap_embedding.pkl"):
+    """
+    Carrega o embedding UMAP pré-computado a partir de um arquivo pickle.
+    """
+    df = pd.read_pickle(path)  # <-- corrige leitura de pickle
     return df
 
+# Carrega o embedding
 df_plot = load_embedding().reset_index(drop=True)
 
 # -----------------------------
-# Features for coloring
+# Features para coloração
 # -----------------------------
 color_feats = ['APGAR5', 'PESO', 'CONSPRENAT', 'SEMAGESTAC', 'APGAR1', 'TPROBSON', 'KOTELCHUCK']
 
-# Ensure numeric
+# Garantir que todas as colunas são numéricas
 for feat in color_feats:
     df_plot[feat] = pd.to_numeric(df_plot[feat], errors='coerce')
 
 # -----------------------------
-# Build Plotly figure
+# Construir figura Plotly
 # -----------------------------
 fig = go.Figure()
 
@@ -63,7 +69,7 @@ for feat in color_feats:
             ])
             for i,(u1,u2) in enumerate(zip(df_plot['UMAP_1'], df_plot['UMAP_2']))
         ],
-        visible=(feat == 'APGAR5')  # Only APGAR5 visible initially
+        visible=(feat == 'APGAR5')  # só APGAR5 visível inicialmente
     )
     fig.add_trace(trace)
 
@@ -92,7 +98,7 @@ updatemenus = [
 ]
 
 # -----------------------------
-# Layout final
+# Layout final da figura
 # -----------------------------
 fig.update_layout(
     updatemenus=updatemenus,
@@ -106,7 +112,7 @@ fig.update_layout(
             xref="paper",
             yref="paper",
             x=0,
-            y=1.08,  # just above the title
+            y=1.08,  # posição logo acima do título
             showarrow=False,
             font=dict(size=14)
         )
@@ -114,6 +120,6 @@ fig.update_layout(
 )
 
 # -----------------------------
-# Display in Streamlit
+# Exibir no Streamlit
 # -----------------------------
 st.plotly_chart(fig, use_container_width=True)
